@@ -11,6 +11,7 @@ import {
   View,
   Button,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import ArSvg from '../assets/svg/ArSvg';
 import ChatSvg from '../assets/svg/ChatSvg';
@@ -282,50 +283,16 @@ const SquareAnimationBack = ({scrollX}: {scrollX: Animated.Value}) => {
 };
 
 const SquareRotate = ({scrollX}: {scrollX: Animated.Value}) => {
-  const rotate = scrollX.interpolate({
-    inputRange: [10, width, width * 2],
-    outputRange: ['35deg', '-35deg', '35deg'],
-  });
-  const rotate2 = Animated.modulo(scrollX, width).interpolate({
-    inputRange: [0, width],
-    outputRange: ['35deg', '-35deg'],
-  });
-  const rotate3 = Animated.divide(
+
+  const rotate = Animated.divide(
     Animated.modulo(scrollX, width),
     new Animated.Value(width),
   ).interpolate({
     inputRange: [0, 1],
-    outputRange: ['35deg', '-35deg'],
+    outputRange: ['0deg', '-180deg'],
   });
-  const rotate4 = Animated.divide(
-    Animated.modulo(scrollX, width),
-    new Animated.Value(width),
-  ).interpolate({
-    inputRange: [0, 0.5, 1],
-    outputRange: ['35deg', '90deg', '125deg'],
-  });
-  const rotate5 = Animated.divide(
-    Animated.modulo(scrollX, width),
-    new Animated.Value(width),
-  ).interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'],
-  });
+
   const square = Animated.divide(
-    Animated.modulo(scrollX, width),
-    new Animated.Value(width),
-  ).interpolate({
-    inputRange: [0, 0.5, 1],
-    outputRange: [0, width, 0],
-  });
-  const square2 = Animated.divide(
-    Animated.modulo(scrollX, width),
-    new Animated.Value(width),
-  ).interpolate({
-    inputRange: [0, 0.5, 1],
-    outputRange: [0, -width, 0],
-  });
-  const square3 = Animated.divide(
     Animated.modulo(scrollX, width),
     new Animated.Value(width),
   ).interpolate({
@@ -357,9 +324,10 @@ const SquareRotate = ({scrollX}: {scrollX: Animated.Value}) => {
           height: width,
           backgroundColor: 'rgba(255,255,255,0.3)',
           transform: [
-            {rotateY: rotate5},
-            {translateX: square3},
-            {rotate: rotate5},
+            {perspective: -400},
+            {rotateY: rotate},
+            {translateX: square},
+            {rotate: rotate},
           ],
         }}
       />
@@ -459,6 +427,7 @@ const IndicatorSlug = ({scrollX}: {scrollX: Animated.Value}) => {
 };
 
 function Presentation(): JSX.Element {
+    const navigation = useNavigation();
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const fadeIn = useRef(new Animated.Value(0)).current;
@@ -466,7 +435,7 @@ function Presentation(): JSX.Element {
   useEffect(() => {
     Animated.timing(fadeIn, {
       toValue: 1,
-      duration: 1000,
+      duration: 500,
       useNativeDriver: true,
     }).start();
   }, [fadeIn]);
@@ -476,8 +445,6 @@ function Presentation(): JSX.Element {
       <Animated.View style={[styles.container, {opacity: fadeIn}]}>
         <SafeAreaView
           style={{
-            //   flex: 1,
-            //   backgroundColor: 'white',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
@@ -539,13 +506,14 @@ function Presentation(): JSX.Element {
             }}
           />
           <IndicatorSlug scrollX={scrollX} />
+          <View style={{flexDirection: 'row', position: 'absolute', bottom: 90, opacity: 0.5}}>
           <Button
             title="Go to login"
-            // eslint-disable-next-line react/no-unstable-nested-components
             onPress={() => {
-              return <Home />;
+                navigation.navigate('Login');
             }}
           />
+            </View>
           {/* <Text style={styles.text}>Home</Text> */}
         </SafeAreaView>
       </Animated.View>
