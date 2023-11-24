@@ -5,6 +5,7 @@ import Login from './src/screens/Login';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RNBootSplash from 'react-native-bootsplash';
+import LavaScreen from './src/screens/Lava';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -29,6 +30,7 @@ const App = () => {
           component={Login}
           options={{headerShown: false}}
         />
+        <Stack.Screen name="Lava" component={LavaScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,22 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   StyleSheet,
   Animated,
   SafeAreaView,
-  Image,
   View,
+  TouchableOpacity,
   TextInput,
   Dimensions,
-  TouchableOpacity,
 } from 'react-native';
-// import {useNavigation} from '@react-navigation/native';
-import * as Animed from 'react-native-reanimated';
+import {useNavigation} from '@react-navigation/native';
+import LavaLampLoading from '../components/LavaLampLoading';
 
 const Login = () => {
   const {height, width} = Dimensions.get('window');
-
+  const [loading, setLoading] = useState(false);
   const fadeIn = React.useRef(new Animated.Value(0)).current;
+  const navigation = useNavigation();
+
+  const handleLoginPress = () => {
+    // Perform your login logic here
+
+    // Show the lava lamp loading animation
+    setLoading(true);
+
+    // Simulate a delay for the login process (replace this with your actual login logic)
+    setTimeout(() => {
+      // navigation.navigate('Lava');
+      setLoading(false);
+    }, 2000);
+  };
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -61,11 +74,12 @@ const Login = () => {
             autoCapitalize="none"
             autoCorrect={false}
           /> */}
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleLoginPress}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      {loading && <LavaLampLoading />}
     </Animated.View>
   );
 };

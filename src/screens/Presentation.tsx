@@ -283,7 +283,6 @@ const SquareAnimationBack = ({scrollX}: {scrollX: Animated.Value}) => {
 };
 
 const SquareRotate = ({scrollX}: {scrollX: Animated.Value}) => {
-
   const rotate = Animated.divide(
     Animated.modulo(scrollX, width),
     new Animated.Value(width),
@@ -427,7 +426,7 @@ const IndicatorSlug = ({scrollX}: {scrollX: Animated.Value}) => {
 };
 
 function Presentation(): JSX.Element {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const fadeIn = useRef(new Animated.Value(0)).current;
@@ -481,7 +480,11 @@ function Presentation(): JSX.Element {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    {/* <AnimationComponent scrollX={scrollX} height={height} width={width} /> */}
+                    {/* <AnimationComponent
+                      scrollX={scrollX}
+                      height={height}
+                      width={width}
+                    /> */}
                     <item.image
                       width={width / 2}
                       height={height / 2}
@@ -506,14 +509,20 @@ function Presentation(): JSX.Element {
             }}
           />
           <IndicatorSlug scrollX={scrollX} />
-          <View style={{flexDirection: 'row', position: 'absolute', bottom: 90, opacity: 0.5}}>
-          <Button
-            title="Go to login"
-            onPress={() => {
+          <View
+            style={{
+              flexDirection: 'row',
+              position: 'absolute',
+              bottom: 90,
+              opacity: 0.5,
+            }}>
+            <Button
+              title="Go to login"
+              onPress={() => {
                 navigation.navigate('Login');
-            }}
-          />
-            </View>
+              }}
+            />
+          </View>
           {/* <Text style={styles.text}>Home</Text> */}
         </SafeAreaView>
       </Animated.View>
